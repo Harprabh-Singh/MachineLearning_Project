@@ -96,7 +96,7 @@ stock_ml_project/
 
 ## 🔹 Step 1 — Clone Repository
 
-git clone https://github.com/YOUR_USERNAME/stock-ml-analysis.git
+git clone https://github.com/Harprabh-Singh/stock-ml-analysis.git
 cd stock-ml-analysis
 
 ---
