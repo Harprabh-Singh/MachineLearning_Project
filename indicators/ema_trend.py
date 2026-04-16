@@ -1,6 +1,6 @@
 import numpy as np
 
-def calculate_ema_trend_score(df):
+def calculate_ema_trend_score(df):    #exponential moving average trend score
 
     score = []
 

@@ -1,6 +1,6 @@
 import pandas as pd
 
-def calculate_rsi(df, period=14):
+def calculate_rsi(df, period=14):  #Relative Strength Index
     delta = df['Close'].diff()
 
     gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()

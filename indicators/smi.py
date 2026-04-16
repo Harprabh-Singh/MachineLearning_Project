@@ -1,6 +1,6 @@
 import pandas as pd
 
-def calculate_smi(df, period=14, smooth=3):
+def calculate_smi(df, period=14, smooth=3):   #Stochastic Momentum Index
 
     high_max = df['High'].rolling(period).max()
     low_min = df['Low'].rolling(period).min()
