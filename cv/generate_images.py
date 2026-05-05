@@ -3,41 +3,22 @@ import os
 import mplfinance as mpf
 
 # -----------------------------
-# Load dataset
+# Load datasets
 # -----------------------------
 df_ohlc = pd.read_csv("data/processed/reliance_with_indicators.csv")
 df_labels = pd.read_csv("data/processed/reliance_labeled.csv")
 
-# Merge on Date to get OHLC + LABEL
+# -----------------------------
+# Merge OHLC + LABEL
+# -----------------------------
 df = pd.merge(df_ohlc, df_labels[['Date', 'LABEL']], on='Date', how='inner')
 
-# -----------------------------
-# FIX COLUMN NAMES (VERY IMPORTANT)
-# -----------------------------
-print("Original Columns:", df.columns)
-
-# Remove spaces if any
-df.columns = df.columns.str.strip()
-
-# Ensure correct names
-df.rename(columns={
-    'open': 'Open',
-    'high': 'High',
-    'low': 'Low',
-    'close': 'Close',
-    'volume': 'Volume'
-}, inplace=True)
-
-# If columns are already correct but capitalized differently
-# enforce correct case
-df.columns = [col.capitalize() for col in df.columns]
-
-print("Fixed Columns:", df.columns)
+print("Columns:", df.columns)
 
 # -----------------------------
-# Check required columns
+# Ensure required columns exist
 # -----------------------------
-required_cols = ['Open', 'High', 'Low', 'Close']
+required_cols = ['Open', 'High', 'Low', 'Close', 'LABEL']
 
 for col in required_cols:
     if col not in df.columns:
@@ -70,7 +51,7 @@ for i in range(window_size, len(df) - 1):
 
     window = df.iloc[i - window_size:i]
 
-    label = df.iloc[i]['Label']
+    label = df.iloc[i]['LABEL']   # ✅ correct column name
 
     if label == 1:
         folder = "buy"
