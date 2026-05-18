@@ -72,7 +72,7 @@ Install the typical data science stack (adjust versions as needed):
 python -m venv venv
 venv\Scripts\activate   # Windows
 # source venv/bin/activate  # macOS / Linux
-pip install pandas numpy scikit-learn matplotlib
+pip install -r requirements.txt
 ```
 
 Add any other packages shown by import errors (e.g., CV libraries) as needed.
