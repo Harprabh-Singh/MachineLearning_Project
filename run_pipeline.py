@@ -60,8 +60,11 @@ if __name__ == "__main__":
     for step in steps:
         run_script(step)
 
+    run_script(ROOT / "prediction.py")
+
     final_output = ROOT / "data" / "processed" / "reliance_labeled.csv"
     print("\n=== Pipeline complete ===")
     print(f"Final labeled dataset: {final_output}")
     print("Generated images are saved under: cv/images/")
-    print("Run the new dataset by calling: python run_pipeline.py --raw-csv path/to/your_dataset.csv")
+    print("Prediction image is saved under: cv/prediction_latest.png")
+    print("Run the full pipeline by calling: python run_pipeline.py --raw-csv path/to/your_dataset.csv")

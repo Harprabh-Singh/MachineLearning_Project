@@ -1,13 +1,9 @@
 import pandas as pd
 
-# -----------------------------
 # Load Dataset
-# -----------------------------
 df = pd.read_csv("data/processed/reliance_labeled.csv")
 
-# -----------------------------
 # Features (same as Phase 7)
-# -----------------------------
 feature_columns = [
     'EMA_DIFF_8_21',
     'EMA_DIFF_21_50',
@@ -21,16 +17,12 @@ feature_columns = [
     'PRICE_RANGE'
 ]
 
-# -----------------------------
 # Split same as training
-# -----------------------------
 split_index = int(len(df) * 0.8)
 
 test_df = df.iloc[split_index:].copy()
 
-# -----------------------------
 # Load trained model
-# -----------------------------
 # Instead of re-training, we simulate predictions again
 
 from sklearn.ensemble import RandomForestClassifier
@@ -50,15 +42,11 @@ model = RandomForestClassifier(
 
 model.fit(X_train, y_train)
 
-# -----------------------------
 # Generate Predictions
-# -----------------------------
 X_test = test_df[feature_columns]
 test_df['PREDICTION'] = model.predict(X_test)
 
-# -----------------------------
 # Backtesting Logic
-# -----------------------------
 future_period = 5
 
 test_df['EXIT_PRICE'] = test_df['Close'].shift(-future_period)
@@ -80,19 +68,15 @@ def calculate_profit(row):
 
 test_df['STRATEGY_RETURN'] = test_df.apply(calculate_profit, axis=1)
 
-# -----------------------------
 # Performance Metrics
-# -----------------------------
 total_return = test_df['STRATEGY_RETURN'].sum()
 win_rate = (test_df['STRATEGY_RETURN'] > 0).mean()
 
-print("\n📊 BACKTEST RESULTS:\n")
+print("\n BACKTEST RESULTS:\n")
 print(f"Total Return: {total_return:.4f}")
 print(f"Win Rate: {win_rate:.2%}")
 print(f"Number of Trades: {(test_df['PREDICTION'] != 0).sum()}")
 
-# -----------------------------
 # Preview trades
-# -----------------------------
 print("\nSample Trades:\n")
 print(test_df[['Date', 'Close', 'PREDICTION', 'STRATEGY_RETURN']].head())

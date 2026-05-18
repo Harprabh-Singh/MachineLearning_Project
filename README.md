@@ -56,8 +56,6 @@ stock_ml_project/
 │   └── create_labels.py
 ├── models/
 │   └── train_model.py
-├── fusion/
-│   └── simple_fusion.py
 ├── run_pipeline.py
 ├── main.py
 ├── README.md

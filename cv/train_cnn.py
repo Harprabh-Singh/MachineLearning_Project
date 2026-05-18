@@ -4,26 +4,20 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
-# -----------------------------
 # Config
-# -----------------------------
 IMAGE_SIZE = 128
 BATCH_SIZE = 16
 EPOCHS = 5
 
 DATA_DIR = "cv/images"
 
-# -----------------------------
 # Transforms
-# -----------------------------
 transform = transforms.Compose([
     transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
     transforms.ToTensor()
 ])
 
-# -----------------------------
 # Dataset
-# -----------------------------
 dataset = datasets.ImageFolder(root=DATA_DIR, transform=transform)
 
 class_names = dataset.classes
@@ -38,9 +32,7 @@ train_dataset, test_dataset = torch.utils.data.random_split(dataset, [train_size
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE)
 
-# -----------------------------
 # CNN Model
-# -----------------------------
 class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
@@ -67,9 +59,7 @@ class SimpleCNN(nn.Module):
         x = self.fc(x)
         return x
 
-# -----------------------------
 # Setup
-# -----------------------------
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model = SimpleCNN().to(device)
@@ -77,9 +67,7 @@ model = SimpleCNN().to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-# -----------------------------
 # Training Loop
-# -----------------------------
 for epoch in range(EPOCHS):
     model.train()
     total_loss = 0
@@ -97,9 +85,7 @@ for epoch in range(EPOCHS):
 
     print(f"Epoch {epoch+1}/{EPOCHS}, Loss: {total_loss:.4f}")
 
-# -----------------------------
 # Evaluation
-# -----------------------------
 model.eval()
 correct = 0
 total = 0
