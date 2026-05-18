@@ -1,187 +1,116 @@
-# 📈 ML-Driven Stock Analysis with Indicator Fusion
+# 📈 ML-Driven Stock Analysis — Updated
 
-## 🚀 Project Overview
+This repository provides a reproducible, offline pipeline that converts raw OHLCV data into labeled datasets and (optionally) CV images for downstream modeling and backtesting.
 
-This project is a machine learning–based stock analysis system that generates **Buy / Sell / Hold signals** using technical indicators and data-driven modeling.
 
-Unlike traditional rule-based trading systems, this project:
-- Learns patterns from historical data
-- Uses engineered features instead of raw indicators
-- Avoids data leakage and unrealistic assumptions
-- Is fully offline and reproducible
+## Quick Start — Run the full preprocessing pipeline
 
----
+run pip install -r requirements.txt and then - 
 
-## 🎯 Objectives
+1. Place your raw CSV (OHLCV) file somewhere accessible.
+2. From the repository root run:
 
-- Analyze stock data using technical indicators
-- Convert indicators into machine learning features
-- Generate supervised learning labels using future returns
-- Build a clean ML pipeline for stock signal classification
+```bash
+python run_pipeline.py --raw-csv path/to/your_dataset.csv
+```
 
----
+Notes:
+- If `--raw-csv` is omitted, the pipeline expects `data/raw/reliance_daily.csv`.
+- The script runs these steps in order:
+	- `data/clean_data.py`
+	- `indicators/build_indicators.py`
+	- `features/build_features.py`
+	- `labels/create_labels.py`
+	- `cv/generate_images.py`
 
-## 🧠 Key Features
-
-- 📊 EMA Trend Meter (custom implementation)
-- 📉 RSI (Relative Strength Index)
-- ⚡ SMI (Stochastic Momentum Index)
-- 🧮 Feature engineering pipeline
-- 🏷️ Buy/Sell/Hold label generation (no leakage)
-- 📁 Fully modular and structured codebase
+After completion the main labeled dataset is saved to `data/processed/reliance_labeled.csv` and images (if generated) are under `cv/images/`.
 
 ---
 
-## 🏗️ Project Structure
+## Project layout (current)
 
 stock_ml_project/
-│
+├── backtest/
+│   └── simple_backtest.py
+├── cv/
+│   ├── generate_images.py
+│   ├── train_cnn.py
+│   └── images/
+│       ├── buy/
+│       ├── hold/
+│       └── sell/
 ├── data/
 │   ├── raw/
+│   │   └── reliance_daily.csv (example)
 │   └── processed/
-│
+│       └── reliance_labeled.csv
+├── features/
+│   └── build_features.py
 ├── indicators/
+│   ├── build_indicators.py
 │   ├── ema.py
 │   ├── ema_trend.py
 │   ├── rsi.py
-│   ├── smi.py
-│   └── build_indicators.py
-│
-├── features/
-│   └── build_features.py
-│
+│   └── smi.py
 ├── labels/
 │   └── create_labels.py
-│
-├── docs/
-│   └── problem_definition.md
-│
-├── .gitignore
-└── README.md
+├── models/
+│   └── train_model.py
+├── fusion/
+│   └── simple_fusion.py
+├── run_pipeline.py
+├── main.py
+├── README.md
 
 ---
 
-# ✅ Completed Phases
+## Dependencies
 
-### 🔵 Phase 1 — Problem Definition
-- Defined system scope and limitations
-- Offline ML-based stock signal system
+Install the typical data science stack (adjust versions as needed):
 
-### 🔵 Phase 2 — Data Collection
-- Historical OHLCV data collected
-- Stored locally for reproducibility
-
-### 🔵 Phase 3 — Data Cleaning
-- Removed missing values and duplicates
-- Sorted data chronologically
-- Addressed bias considerations
-
-### 🔵 Phase 4 — Indicator Computation
-- EMA (8, 21, 50, 200)
-- EMA Trend Score
-- RSI (14)
-- SMI
-
-### 🔵 Phase 5 — Feature Engineering
-- Trend, momentum, and volatility features created
-- Converted indicators → ML-ready features
-
-### 🔵 Phase 6 — Label Generation
-- Buy/Sell/Hold labels based on future returns
-- No data leakage
-
----
-
-# ⚙️ Setup Instructions (Run on Any Laptop)
-
-## 🔹 Step 1 — Clone Repository
-
-git clone https://github.com/Harprabh-Singh/MachineLearning_Project.git
-cd stock-ml-analysis
-
----
-
-## 🔹 Step 2 — Create Virtual Environment
-
+```bash
 python -m venv venv
+venv\Scripts\activate   # Windows
+# source venv/bin/activate  # macOS / Linux
+pip install pandas numpy scikit-learn matplotlib
+```
 
-Activate:
-
-Windows:
-venv\Scripts\activate
-
-Mac/Linux:
-source venv/bin/activate
+Add any other packages shown by import errors (e.g., CV libraries) as needed.
 
 ---
 
-## 🔹 Step 3 — Install Dependencies
+## Useful commands
 
-pip install pandas numpy yfinance scikit-learn matplotlib
+- Run full preprocessing pipeline:
 
----
+```bash
+python run_pipeline.py --raw-csv data/raw/reliance_daily.csv
+```
 
-## 🔹 Step 4 — Add Data
+- Run individual pipeline steps (examples):
 
-Download from Yahoo Finance and place in:
-data/raw/reliance_daily.csv
-
----
-
-## 🔹 Step 5 — Clean Data
-
+```bash
 python data/clean_data.py
-
----
-
-## 🔹 Step 6 — Build Indicators
-
 python indicators/build_indicators.py
-
----
-
-## 🔹 Step 7 — Generate Features
-
 python features/build_features.py
-
----
-
-## 🔹 Step 8 — Create Labels
-
 python labels/create_labels.py
+python cv/generate_images.py
+```
 
 ---
 
-# 📊 Pipeline Overview
+## Outputs
 
-Raw Data → Clean Data → Indicators → Features → Labels
-
----
-
-# ⚠️ Important Notes
-
-- This project does NOT guarantee profits
-- Not financial advice
-- Intended for learning and research
+- Labeled CSV: `data/processed/reliance_labeled.csv`
+- CV images: `cv/images/` (subfolders: `buy`, `hold`, `sell`)
 
 ---
 
-# 🔜 Upcoming Work
+## Notes & Caveats
 
-- Machine Learning Models
-- Backtesting
-- Computer Vision Integration
+- This is a research / learning project — not investment advice.
+- The pipeline scripts are designed to be run locally and expect realistic, cleaned OHLCV CSVs.
 
----
+## Authors - 
 
-# 🧰 Tech Stack
-
-- Python
-- Pandas, NumPy
-- Scikit-learn
-
----
-
-# 👨‍💻 Authors
-
-Harprabh Singh Nanda and Hridayjit Singh Nanda
+- Harprabh Singh Nanda and Hridayjit Singh Nanda
