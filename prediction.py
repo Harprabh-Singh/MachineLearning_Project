@@ -30,9 +30,6 @@ def load_data():
     features_path = os.path.join('data', 'processed', 'reliance_features.csv')
     indicators_path = os.path.join('data', 'processed', 'reliance_with_indicators.csv')
 
-    missing = [p for p in [labeled_path, features_path, indicators_path] if not os.path.exists(p)]
-    if missing:
-        raise FileNotFoundError(f'Missing required dataset file(s): {missing}')
 
     df_labeled = pd.read_csv(labeled_path)
     df_features = pd.read_csv(features_path)
@@ -56,8 +53,6 @@ def train_classifier(df):
 
 
 def build_prediction_image(window_df, output_path):
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-
     window_df = window_df.copy()
     window_df['Date'] = pd.to_datetime(window_df['Date'])
     window_df.set_index('Date', inplace=True)
