@@ -41,14 +41,15 @@ for i in range(window_size, len(df) - 1):
 
     if label == 1:
         folder = "buy"
+        title = "Buy here"
     elif label == -1:
         folder = "sell"
+        title = "Sell here"
     else:
         folder = "hold"
+        title = "Hold"
 
     filename = os.path.join(base_dir, folder, f"chart_{i}.png")
-
-    print(f"Saving: {filename}")
 
     try:
         mpf.plot(
@@ -57,6 +58,7 @@ for i in range(window_size, len(df) - 1):
             style='charles',
             mav=(8, 21),
             volume=False,
+            title=title,
             savefig=dict(fname=filename)
         )
         count += 1
@@ -66,4 +68,6 @@ for i in range(window_size, len(df) - 1):
         continue
 
 # Done
-print(f"\n✅ Total images generated: {count}")
+# print("Total images generated: ", count)
+print("✅ Images for all historical data generated")
+print(f"✅ Total images generated: {count}")
